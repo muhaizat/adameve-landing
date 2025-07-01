@@ -1,6 +1,7 @@
 # ADAMËVE Landing Page
 
 Landing page untuk supplement brand premium ADAMËVE yang mensasarkan pasaran Malaysia.
+Versi terkini dibina semula menggunakan **Next.js** dengan TypeScript dan Tailwind CSS untuk pengalaman pembangunan yang lebih modular dan moden.
 
 ## 🌟 Features
 
@@ -18,30 +19,29 @@ Landing page untuk supplement brand premium ADAMËVE yang mensasarkan pasaran Ma
 
 ## 🚀 Tech Stack
 
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
-- **Icons**: Font Awesome 6.0
-- **Fonts**: Google Fonts (Playfair Display + Inter)
-- **Deployment**: Vercel/cPanel ready
+ - **Frontend**: Next.js 13 (App Router) dengan TypeScript dan Tailwind CSS
+ - **Icons**: Font Awesome 6.0
+ - **Fonts**: Google Fonts (Playfair Display + Inter)
+ - **Animation**: Framer Motion
+ - **Deployment**: Vercel ready
 
 ## 🏗️ Project Structure
 
 ```
 adameve-landing/
-├── index.html              # Main landing page
-├── css/
-│   ├── style.css          # Main stylesheet (optional - inline dalam HTML)
-│   └── responsive.css     # Mobile responsiveness (optional)
-├── js/
-│   └── main.js           # JavaScript functionality (optional - inline dalam HTML)
-├── images/
-│   ├── logo/             # ADAMËVE logo variants
-│   ├── products/         # Product images
-│   └── testimonials/     # Customer photos (optional)
-├── assets/
-│   └── icons/           # Custom icons (optional)
+├── src/
+│   ├── app/             # Next.js App Router pages
+│   │   ├── layout.tsx   # Root layout
+│   │   └── page.tsx     # Homepage
+│   ├── components/      # Reusable React components
+│   └── styles/          # Global styles (Tailwind)
+├── public/              # Static assets
+├── package.json         # Project dependencies
+├── tsconfig.json        # TypeScript configuration
+├── tailwind.config.js   # Tailwind configuration
+├── next.config.js       # Next.js configuration
 ├── README.md            # Project documentation
-├── .gitignore          # Git ignore file
-└── vercel.json         # Vercel deployment config
+└── vercel.json          # Vercel deployment config
 ```
 
 ## 📱 Contact Information
@@ -59,10 +59,16 @@ git clone https://github.com/[your-username]/adameve-landing.git
 cd adameve-landing
 ```
 
-2. Open dengan Live Server:
-- Install Live Server extension dalam VSCode
-- Right-click `index.html` > "Open with Live Server"
-- Page akan auto-refresh bila ada changes
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Jalankan server development:
+```bash
+npm run dev
+```
+App akan boleh diakses di `http://localhost:3000`.
 
 ## 🚀 Deployment
 
@@ -72,9 +78,8 @@ cd adameve-landing
 3. Custom domain boleh setup dalam Vercel dashboard
 
 ### cPanel
-1. Upload semua files ke public_html folder
-2. Ensure index.html adalah main file
-3. Test semua functionality
+Next.js lebih sesuai dideploy di Vercel. Sekiranya perlu menggunakan cPanel,
+build projek terlebih dahulu dan upload folder `out` hasil `next export`.
 
 ## 📊 Performance
 
