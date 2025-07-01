@@ -1,170 +1,122 @@
-# ADAMËVE Landing Page
+# ADAMËVE Product Landing Page MVP
 
-Landing page untuk supplement brand premium ADAMËVE yang mensasarkan pasaran Malaysia.
-Versi terkini dibina semula menggunakan **Next.js** dengan TypeScript dan Tailwind CSS untuk pengalaman pembangunan yang lebih modular dan moden.
-
-## 🌟 Features
-
-- **Responsive Design** - Mobile-first approach, compatible dengan semua devices
-- **Modern UI/UX** - Earth tone color scheme dengan crown branding
-- **WhatsApp Integration** - Contact form terus hantar ke WhatsApp business
-- **Malaysian Market Focus** - Content dalam Bahasa Melayu dengan local payment methods
-- **SEO Optimized** - Meta tags dan semantic HTML structure
-
-## 🛍️ Produk
-
-1. **Detox Supplement** - Bantu lancarkan pengkumuhan secara natural
-2. **Post-Biotics** - Untuk kesihatan usus dan sistem pencernaan
-3. **Skin Brightening** - Cerahkan kulit dari dalam
-
-## 🚀 Tech Stack
-
- - **Frontend**: Next.js 13 (App Router) dengan TypeScript dan Tailwind CSS
- - **Icons**: Font Awesome 6.0
- - **Fonts**: Google Fonts (Playfair Display + Inter)
- - **Animation**: Framer Motion
- - **Deployment**: Vercel ready
-
-## 🏗️ Project Structure
-
-```
-adameve-landing/
-├── assets/
-│   └── icons/
-│       ├── placeholder.txt
-│       └── .gitkeep
-├── css/
-│   ├── responsive.css
-│   └── style.css
-├── images/
-│   ├── logo/
-│   │   └── .gitkeep
-│   ├── products/
-│   │   └── .gitkeep
-│   └── testimonials/
-│       └── .gitkeep
-├── js/
-│   └── main.js
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── components/
-│   │   ├── About.tsx
-│   │   ├── Button.tsx
-│   │   ├── Container.tsx
-│   │   ├── CTA.tsx
-│   │   ├── Features.tsx
-│   │   ├── Heading.tsx
-│   │   ├── Hero.tsx
-│   │   ├── Navbar.tsx
-│   │   ├── Section.tsx
-│   │   └── SEOHead.tsx
-│   └── styles/
-│       └── globals.css
-├── index.html
-├── next-env.d.ts
-├── next.config.js
-├── package.json
-├── package-lock.json
-├── postcss.config.js
-├── README.md
-├── tailwind.config.js
-├── tsconfig.json
-└── vercel.json
-```
-
-## 📱 Contact Information
-
-- **Phone/WhatsApp**: +60 11-5405 4882
-- **Email**: hello@adameve.my
-- **Address**: 8-2-2A, Jalan Medan PB 2A, 43650 Bandar Baru Bangi, Selangor
-- **Social Media**: TikTok, Facebook, Instagram
-
-## 🔧 Local Development
-
-1. Clone repository:
-```bash
-git clone https://github.com/[your-username]/adameve-landing.git
-cd adameve-landing
-```
-
-2. Install dependencies:
-```bash
-npm install
-```
-
-3. Jalankan server development:
-```bash
-npm run dev
-```
-App akan boleh diakses di `http://localhost:3000`.
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. Connect GitHub repo dengan Vercel
-2. Auto-deploy pada setiap push ke main branch
-3. Custom domain boleh setup dalam Vercel dashboard
-
-### cPanel
-Next.js lebih sesuai dideploy di Vercel. Sekiranya perlu menggunakan cPanel,
-build projek terlebih dahulu dan upload folder `out` hasil `next export`.
-
-## 📊 Performance
-
-- **Lighthouse Score**: Optimized untuk Performance, SEO, Accessibility
-- **Mobile Friendly**: Google Mobile-Friendly Test passed
-- **Page Speed**: Fast loading dengan optimized assets
-- **SEO Ready**: Meta tags, semantic HTML, structured data
-
-## 🎨 Design System
-
-### Colors
-- Primary Brown: #8B7355
-- Dark Brown: #6B5B47
-- Light Brown: #A69080
-- Cream: #F5F3F0
-- Dark Green: #4A4A3A
-- Accent Green: #7A8471
-
-### Typography
-- **Headings**: Playfair Display (serif)
-- **Body Text**: Inter (sans-serif)
-- **Logo**: Custom crown icon + Playfair Display
-
-## 📈 Analytics & Tracking
-
-- Contact form submissions tracking
-- Button click analytics
-- WhatsApp conversion tracking
-- User journey mapping
-
-## 🔒 Security & Compliance
-
-- **Halal Certification**: Dalam proses
-- **KKM Approval**: Dalam proses
-- **Privacy Policy**: Compliant dengan PDPA Malaysia
-- **SSL Certificate**: Required untuk production
-
-## 🤝 Contributing
-
-1. Fork repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push ke branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## 📞 Support
-
-Untuk technical support atau business inquiries:
-- Email: hello@adameve.my
-- WhatsApp: +60 11-5405 4882
-
-## 📄 License
-
-© 2025 ADAMËVE. Semua hak terpelihara.
+Versi ringkas dan pantas untuk membina **landing page dinamik** bagi setiap produk di bawah jenama **ADAMËVE**. Dibina menggunakan **Next.js + Supabase**, dengan gaya UI ala produk Apple dan butang pesanan terus ke WhatsApp.
 
 ---
 
-**Built with ❤️ for Malaysian health & beauty market**
+## ✨ MVP Features
+
+- ✅ 1 Page per Product (`/[slug]`)
+- ✅ Data dinamik dari Supabase
+- ✅ Hero Section dengan tagline dan gambar
+- ✅ Features Section (highlight point utama)
+- ✅ Product Gallery (scrollable)
+- ✅ Order Form (nama, no telefon, kuantiti)
+- ✅ WhatsApp auto-submit button
+- ✅ Modern, responsive, Apple-style design
+
+---
+
+## 🧱 Tech Stack
+
+| Layer     | Stack                         |
+|-----------|-------------------------------|
+| Frontend  | Next.js 13 (App Router)       |
+| Styling   | Tailwind CSS                  |
+| Backend   | Supabase (Table: `products`)  |
+| Hosting   | Vercel                        |
+| Animation | (Optional) Framer Motion      |
+
+---
+
+## 📁 Folder Structure
+
+\`\`\`
+adameve-landing-mvp/
+├── public/
+│   └── images/
+├── src/
+│   ├── app/
+│   │   ├── [slug]/
+│   │   │   └── page.tsx          // Dynamic product page
+│   │   └── layout.tsx
+│   ├── components/
+│   │   ├── Hero.tsx
+│   │   ├── Features.tsx
+│   │   ├── Gallery.tsx
+│   │   ├── OrderForm.tsx
+│   │   └── WhatsAppButton.tsx
+│   ├── lib/
+│   │   └── supabase.ts           // Supabase client
+│   └── styles/
+│       └── globals.css
+├── .env.local
+├── next.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+├── package.json
+└── README.md
+\`\`\`
+
+---
+
+## 🔧 Supabase Setup
+
+1. **Create table** `products` (SQL di bawah)
+2. **Enable Row Level Security (RLS)** – public read only
+3. **Insert sample data** (product info)
+
+---
+
+## 🔐 .env.local
+
+\`\`\`env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+\`\`\`
+
+---
+
+## 🚀 Development
+
+\`\`\`bash
+npm install
+npm run dev
+\`\`\`
+
+App will run on \`http://localhost:3000\`
+
+---
+
+## ✅ Deployment (Vercel)
+
+1. Push repo to GitHub
+2. Import to Vercel
+3. Set environment variables
+4. Deploy
+
+---
+
+## 📱 WhatsApp Order Format
+
+\`\`\`txt
+Hi, saya nak order [PRODUCT NAME]
+Nama: [Nama Pelanggan]
+No Telefon: [No Telefon]
+Kuantiti: [X]
+\`\`\`
+
+Link format:
+\`\`\`
+https://wa.me/[nombor]?text=${encodeURIComponent(fullMessage)}
+\`\`\`
+
+---
+
+## 📄 License
+
+© 2025 ADAMËVE. All rights reserved.
+
+---
+
+**Built with ❤️ for Malaysian premium health market**
