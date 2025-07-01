@@ -29,19 +29,49 @@ Versi terkini dibina semula menggunakan **Next.js** dengan TypeScript dan Tailwi
 
 ```
 adameve-landing/
+├── assets/
+│   └── icons/
+│       ├── placeholder.txt
+│       └── .gitkeep
+├── css/
+│   ├── responsive.css
+│   └── style.css
+├── images/
+│   ├── logo/
+│   │   └── .gitkeep
+│   ├── products/
+│   │   └── .gitkeep
+│   └── testimonials/
+│       └── .gitkeep
+├── js/
+│   └── main.js
 ├── src/
-│   ├── app/             # Next.js App Router pages
-│   │   ├── layout.tsx   # Root layout
-│   │   └── page.tsx     # Homepage
-│   ├── components/      # Reusable React components
-│   └── styles/          # Global styles (Tailwind)
-├── public/              # Static assets
-├── package.json         # Project dependencies
-├── tsconfig.json        # TypeScript configuration
-├── tailwind.config.js   # Tailwind configuration
-├── next.config.js       # Next.js configuration
-├── README.md            # Project documentation
-└── vercel.json          # Vercel deployment config
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   ├── About.tsx
+│   │   ├── Button.tsx
+│   │   ├── Container.tsx
+│   │   ├── CTA.tsx
+│   │   ├── Features.tsx
+│   │   ├── Heading.tsx
+│   │   ├── Hero.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── Section.tsx
+│   │   └── SEOHead.tsx
+│   └── styles/
+│       └── globals.css
+├── index.html
+├── next-env.d.ts
+├── next.config.js
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── README.md
+├── tailwind.config.js
+├── tsconfig.json
+└── vercel.json
 ```
 
 ## 📱 Contact Information
