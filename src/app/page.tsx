@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 export default function Page() {
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLDivElement>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   // Testimonial carousel state
   const testimonials = [
@@ -232,13 +233,33 @@ export default function Page() {
           margin: 0 auto;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: center;
           padding: 0.5rem 1.5rem;
+          position: relative;
         }
         .glass-header-logo {
           display: flex;
           align-items: center;
           gap: 10px;
+          justify-content: center;
+          flex: 1;
+        }
+        .glass-header-nav {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+        }
+        .glass-header-link {
+          color: #f5f5f7;
+          text-decoration: none;
+          font-size: 1rem;
+          font-weight: 400;
+          opacity: 0.85;
+          transition: opacity 0.2s;
+        }
+        .glass-header-link:hover {
+          opacity: 1;
+          text-decoration: underline;
         }
         .glass-header-btn {
           background: linear-gradient(90deg, #2d4a35 60%, #86efac 100%);
@@ -256,27 +277,72 @@ export default function Page() {
           background: linear-gradient(90deg, #22543d 60%, #86efac 100%);
           transform: scale(1.04);
         }
-        @media (max-width: 600px) {
-          .glass-header-content { padding: 0.5rem 1rem; }
-          .glass-header-logo .brand-name { font-size: 1.1rem; }
+        .glass-header-hamburger {
+          display: none;
+          background: none;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          position: absolute;
+          left: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
         }
-        .glass-header-link {
-          color: #f5f5f7;
-          text-decoration: none;
-          font-size: 1rem;
-          font-weight: 400;
-          opacity: 0.85;
-          transition: opacity 0.2s;
+        .glass-header-hamburger span {
+          display: block;
+          width: 28px;
+          height: 3px;
+          margin: 5px 0;
+          background: #f5f5f7;
+          border-radius: 2px;
+          transition: 0.3s;
         }
-        .glass-header-link:hover {
-          opacity: 1;
-          text-decoration: underline;
+        @media (max-width: 800px) {
+          .glass-header-content {
+            justify-content: center;
+          }
+          .glass-header-nav {
+            display: none;
+          }
+          .glass-header-hamburger {
+            display: block;
+          }
+        }
+        .mobile-nav {
+          display: none;
+        }
+        .mobile-nav.open {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: fixed;
+          top: 64px;
+          left: 0;
+          width: 100vw;
+          background: rgba(30,30,30,0.95);
+          backdrop-filter: blur(18px);
+          z-index: 3000;
+          padding: 2rem 0 1.5rem 0;
+          gap: 2rem;
+          animation: fadeInDown 0.3s;
+        }
+        @keyframes fadeInDown {
+          from { opacity: 0; transform: translateY(-30px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
 
-      {/* Glassmorphism Header */}
+      {/* Glassmorphism Header with Hamburger for Mobile */}
       <div ref={headerRef} className="glass-header">
         <div className="glass-header-content">
+          {/* Hamburger for mobile */}
+          <button className="glass-header-hamburger" aria-label="Menu" onClick={() => setMenuOpen(v => !v)}>
+            <span style={{transform: menuOpen ? 'rotate(45deg) translateY(8px)' : 'none'}}></span>
+            <span style={{opacity: menuOpen ? 0 : 1}}></span>
+            <span style={{transform: menuOpen ? 'rotate(-45deg) translateY(-8px)' : 'none'}}></span>
+          </button>
+          {/* Logo Centered */}
           <div className="glass-header-logo">
             <svg className="crown-icon" viewBox="0 0 28 24" width={28} height={24} style={{stroke: '#2d4a35', fill: 'none', strokeWidth: 1.5}}>
               <path d="M6 18 L8 6 L14 12 L20 6 L22 18 L21 20 L7 20 Z" />
@@ -286,7 +352,8 @@ export default function Page() {
             </svg>
             <span className="brand-name" style={{fontWeight:600, fontSize:'1.25rem', letterSpacing:'-0.02em'}}>ADAMËVE</span>
           </div>
-          <nav className="glass-header-nav" style={{display:'flex',alignItems:'center',gap:'2rem'}}>
+          {/* Desktop Nav */}
+          <nav className="glass-header-nav">
             <a href="#overview" className="glass-header-link">Overview</a>
             <a href="#manfaat" className="glass-header-link">Manfaat</a>
             <a href="#specs" className="glass-header-link">Spesifikasi</a>
@@ -294,6 +361,15 @@ export default function Page() {
               <button className="glass-header-btn">Beli</button>
             </a>
           </nav>
+        </div>
+        {/* Mobile Nav Overlay */}
+        <div className={`mobile-nav${menuOpen ? ' open' : ''}`} onClick={() => setMenuOpen(false)}>
+          <a href="#overview" className="glass-header-link" onClick={e => {e.stopPropagation(); setMenuOpen(false);}}>Overview</a>
+          <a href="#manfaat" className="glass-header-link" onClick={e => {e.stopPropagation(); setMenuOpen(false);}}>Manfaat</a>
+          <a href="#specs" className="glass-header-link" onClick={e => {e.stopPropagation(); setMenuOpen(false);}}>Spesifikasi</a>
+          <a href="#beli" onClick={e => {e.stopPropagation(); setMenuOpen(false);}}>
+            <button className="glass-header-btn">Beli</button>
+          </a>
         </div>
       </div>
 
