@@ -1,3 +1,4 @@
+'use client';
 import { motion } from 'framer-motion';
 import Section from './Section';
 import Heading from './Heading';
