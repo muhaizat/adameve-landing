@@ -1,7 +1,58 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Page() {
+  const lastScrollY = useRef(0);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  // Testimonial carousel state
+  const testimonials = [
+    {
+      text: "Perubahan yang saya rasai dalam 30 hari pertama sungguh luar biasa. Sistem pencernaan lebih baik, kulit lebih cerah.",
+      author: "— Dr. Siti Aminah, KL"
+    },
+    {
+      text: "Produk ini sangat membantu masalah perut saya. Kini saya rasa lebih bertenaga setiap hari!",
+      author: "— Encik Hafiz, Selangor"
+    },
+    {
+      text: "Kulit saya makin glowing dan badan rasa ringan. Sangat recommended!",
+      author: "— Puan Aina, Johor"
+    },
+    {
+      text: "Saya suka sebab mudah diambil dan kesan cepat. Terima kasih ADAMËVE!",
+      author: "— Nurul, Penang"
+    }
+  ];
+  const [current, setCurrent] = useState(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    // Glassmorphism header scroll show/hide
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          if (headerRef.current) {
+            if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
+              // Scroll down, hide header
+              headerRef.current.style.transform = 'translateY(-100%)';
+            } else {
+              // Scroll up, show header
+              headerRef.current.style.transform = 'translateY(0)';
+            }
+          }
+          lastScrollY.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -79,6 +130,18 @@ export default function Page() {
     };
   }, []);
 
+  useEffect(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setCurrent((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); };
+  }, [current]);
+
+  const goTo = (idx: number) => setCurrent(idx);
+  const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
+
   return (
     <>
       <style>{`
@@ -152,35 +215,94 @@ export default function Page() {
         .scroll-animate.animate { opacity: 1; transform: translateY(0); }
         @media (max-width: 1068px) { .split-section { grid-template-columns: 1fr; gap: 40px; text-align: center; } .section-headline { font-size: 40px; } .hero h1 { font-size: 48px; } .floating-bottle { width: 300px; height: 450px; } }
         @media (max-width: 734px) { .nav-links { display: none; } .hero h1 { font-size: 32px; } .hero .product-subtitle { font-size: 21px; } .section-headline { font-size: 32px; } .quote-text { font-size: 28px; } .cta-headline { font-size: 32px; } .benefits-grid { grid-template-columns: 1fr; } .cta-buttons { flex-direction: column; align-items: center; } }
+        .glass-header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 2000;
+          background: rgba(30, 30, 30, 0.28);
+          box-shadow: 0 2px 24px 0 rgba(0,0,0,0.08);
+          backdrop-filter: blur(18px) saturate(1.5);
+          -webkit-backdrop-filter: blur(18px) saturate(1.5);
+          transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+        }
+        .glass-header-content {
+          max-width: 980px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.5rem 1.5rem;
+        }
+        .glass-header-logo {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .glass-header-btn {
+          background: linear-gradient(90deg, #2d4a35 60%, #86efac 100%);
+          color: #fff;
+          font-weight: 500;
+          border: none;
+          border-radius: 999px;
+          padding: 0.5rem 1.5rem;
+          font-size: 1rem;
+          box-shadow: 0 2px 8px 0 rgba(45,74,53,0.08);
+          cursor: pointer;
+          transition: background 0.2s, transform 0.2s;
+        }
+        .glass-header-btn:hover {
+          background: linear-gradient(90deg, #22543d 60%, #86efac 100%);
+          transform: scale(1.04);
+        }
+        @media (max-width: 600px) {
+          .glass-header-content { padding: 0.5rem 1rem; }
+          .glass-header-logo .brand-name { font-size: 1.1rem; }
+        }
+        .glass-header-link {
+          color: #f5f5f7;
+          text-decoration: none;
+          font-size: 1rem;
+          font-weight: 400;
+          opacity: 0.85;
+          transition: opacity 0.2s;
+        }
+        .glass-header-link:hover {
+          opacity: 1;
+          text-decoration: underline;
+        }
       `}</style>
 
-      {/* Navigation */}
-      <nav className="navbar">
-        <div className="nav-container">
-          <div className="logo">
-            <svg className="crown-icon" viewBox="0 0 28 24">
+      {/* Glassmorphism Header */}
+      <div ref={headerRef} className="glass-header">
+        <div className="glass-header-content">
+          <div className="glass-header-logo">
+            <svg className="crown-icon" viewBox="0 0 28 24" width={28} height={24} style={{stroke: '#2d4a35', fill: 'none', strokeWidth: 1.5}}>
               <path d="M6 18 L8 6 L14 12 L20 6 L22 18 L21 20 L7 20 Z" />
               <circle cx="8" cy="6" r="1.5" />
               <circle cx="14" cy="4" r="1.5" />
               <circle cx="20" cy="6" r="1.5" />
             </svg>
-            <div className="brand-name">ADAMËVE</div>
+            <span className="brand-name" style={{fontWeight:600, fontSize:'1.25rem', letterSpacing:'-0.02em'}}>ADAMËVE</span>
           </div>
-          <div className="nav-links">
-            <a href="#overview">Overview</a>
-            <a href="#manfaat">Manfaat</a>
-            <a href="#specs">Spesifikasi</a>
-            <a href="#beli">Beli</a>
-          </div>
+          <nav className="glass-header-nav" style={{display:'flex',alignItems:'center',gap:'2rem'}}>
+            <a href="#overview" className="glass-header-link">Overview</a>
+            <a href="#manfaat" className="glass-header-link">Manfaat</a>
+            <a href="#specs" className="glass-header-link">Spesifikasi</a>
+            <a href="#beli">
+              <button className="glass-header-btn">Beli</button>
+            </a>
+          </nav>
         </div>
-      </nav>
+      </div>
 
       {/* Hero Section */}
-      <section className="hero" id="overview">
-        <div className="hero-content">
-          <h1>Post-Biotic + 8</h1>
-          <div className="product-subtitle">Kesihatan menyeluruh.<br />Kecantikan dari dalam.</div>
-          <p className="tagline">Formula revolusioner yang menggabungkan 8 strain post-biotik premium untuk usus sihat dan kulit bercahaya.</p>
+      <section className="hero" id="overview" style={{backgroundImage: 'url(/images/unsplash/hero-lifestyle.jpg)', backgroundSize: 'cover', backgroundPosition: 'center'}}>
+        <div className="hero-content" style={{background: 'rgba(30,30,30,0.65)', borderRadius: '32px', padding: '2rem 1.5rem', boxShadow: '0 4px 32px 0 rgba(0,0,0,0.10)'}}>
+          <h1>Post-Biotic + 8 Jelly Pack</h1>
+          <div className="product-subtitle">Suplemen inovatif dalam bentuk jelly pack mudah bawa.<br />Nikmati kesihatan & kecantikan di mana-mana.</div>
+          <p className="tagline">Formula revolusioner post-biotik kini dalam sachet jelly — lebih praktikal, sedap, dan mudah diambil bila-bila masa.</p>
           <div className="cta-buttons">
             <a href="#beli" className="btn-primary">Beli</a>
             <a href="#specs" className="btn-secondary">Ketahui lebih lanjut &gt;</a>
@@ -190,30 +312,39 @@ export default function Page() {
 
       {/* Large Product Image */}
       <section className="large-image-section">
-        <div className="product-hero-image">
-          <div className="floating-bottle">
+        <div className="product-hero-image" style={{backgroundImage: 'url(/images/unsplash/jelly-product.jpg)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}>
+          <div className="floating-bottle" style={{background: 'rgba(45,74,53,0.15)'}}>
             <div className="bottle-label">
               <div className="brand">ADAMËVE</div>
-              <div className="product">POST-BIOTIC + 8</div>
+              <div className="product">POST-BIOTIC + 8 JELLY PACK</div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Gallery Section */}
+      <section className="py-20 bg-black">
+        <div className="flex flex-wrap justify-center gap-6 px-4">
+          <img src="/images/unsplash/gallery1.jpg" alt="Wanita sihat dan ceria" className="w-full max-w-md rounded-lg shadow-lg hover:scale-105 transition-transform" />
+          <img src="/images/unsplash/gallery2.jpg" alt="Gaya hidup aktif dan sihat" className="w-full max-w-md rounded-lg shadow-lg hover:scale-105 transition-transform" />
+          <img src="/images/unsplash/gallery3.jpg" alt="Makanan sihat dan segar" className="w-full max-w-md rounded-lg shadow-lg hover:scale-105 transition-transform" />
+        </div>
+      </section>
+
       {/* Content Section 1 */}
       <section className="content-section scroll-animate">
-        <div className="section-eyebrow">Formula Terdepan</div>
-        <h2 className="section-headline">8 strain post-biotik.<br />Satu formula berkuasa.</h2>
-        <p className="section-subhead">Setiap kapsul mengandungi teknologi mikrobiom paling canggih.</p>
-        <p className="section-body">Post-Biotic + 8 dibangunkan dengan penyelidikan saintifik terkini untuk memberikan sokongan optimum kepada sistem pencernaan dan kesihatan kulit. Formula eksklusif ini menggabungkan 8 strain post-biotik yang telah terbukti secara klinikal.</p>
+        <div className="section-eyebrow">Format Jelly Pack Terkini</div>
+        <h2 className="section-headline">8 strain post-biotik dalam setiap sachet jelly.</h2>
+        <p className="section-subhead">Setiap sachet jelly pack mengandungi teknologi mikrobiom paling canggih.</p>
+        <p className="section-body">Post-Biotic + 8 kini hadir dalam bentuk jelly pack yang mudah dibawa ke mana-mana. Hanya koyak dan makan — tanpa air, tanpa leceh. Formula eksklusif ini menggabungkan 8 strain post-biotik klinikal untuk sokongan optimum sistem pencernaan dan kesihatan kulit anda.</p>
       </section>
 
       {/* Split Section - Benefits */}
       <section className="split-section" id="manfaat">
         <div className="scroll-animate">
           <div className="section-eyebrow">Manfaat Utama</div>
-          <h2 className="section-headline">Kesihatan holistik dalam setiap kapsul.</h2>
-          <p className="section-body">Rasai transformasi menyeluruh dengan formula yang direka khas untuk memberikan manfaat maksimum kepada kesihatan dalaman dan luaran anda.</p>
+          <h2 className="section-headline">Kesihatan holistik dalam setiap jelly pack.</h2>
+          <p className="section-body">Rasai transformasi menyeluruh dengan formula post-biotik dalam bentuk jelly pack yang direka khas untuk memberikan manfaat maksimum kepada kesihatan dalaman dan luaran anda — mudah, sedap, dan praktikal untuk gaya hidup moden.</p>
         </div>
         <div className="benefits-visual scroll-animate">
           <div className="benefits-grid">
@@ -243,9 +374,12 @@ export default function Page() {
 
       {/* Quote Section */}
       <section className="quote-section scroll-animate">
-        <div className="quote-container">
-          <blockquote className="quote-text">"Perubahan yang saya rasai dalam 30 hari pertama sungguh luar biasa. Sistem pencernaan lebih baik, kulit lebih cerah."</blockquote>
-          <cite className="quote-author">— Dr. Siti Aminah, KL</cite>
+        <div className="quote-container flex flex-col md:flex-row items-center justify-center gap-8">
+          <img src="/images/unsplash/testimonial.jpg" alt="Pelanggan gembira" className="w-32 h-32 rounded-full object-cover shadow-lg mb-4 md:mb-0" />
+          <div>
+            <blockquote className="quote-text">"Perubahan yang saya rasai dalam 30 hari pertama sungguh luar biasa. Sistem pencernaan lebih baik, kulit lebih cerah."</blockquote>
+            <cite className="quote-author">— Dr. Siti Aminah, KL</cite>
+          </div>
         </div>
       </section>
 
@@ -271,7 +405,7 @@ export default function Page() {
             <a href="#">Hubungi Kami</a>
           </div>
           <div className="footer-copyright">
-            Copyright © 2025 ADAMËVE Sdn Bhd. Hak cipta terpelihara.
+            {`Copyright © ${new Date().getFullYear()} ADAMËVE. Hak cipta terpelihara. v1.0.0`}
           </div>
         </div>
       </footer>
